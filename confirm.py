@@ -1,48 +1,4 @@
-# import serial
-
-# port = serial.Serial('/dev/ttyUSB0', 9600)
-
-# # while (port.isOpen()):
-# #     data = input("Enter 1 to ""ON"" the led and 0 to ""OFF"" the led: ")
-# #     if (data == '1'):
-# #         port.write('1')
-# #     elif (data == '0'):
-# #         port.write('0')
-# #     else:
-# #         print("Invalid Input")
-
-# while port.isOpen():
-#     data = input("Enter 1 to 'ON' the led and 0 to 'OFF' the led: ")
-#     if data == '1' or data == '0':
-#         port.write(data.encode())  # Convert string to bytes before sending
-#     else:
-#         print("Invalid Input")
-
-
-
-# import tkinter as tk
-# from pyfiglet import Figlet
-
-# def create_window():
-#     window = tk.Tk()
-#     window.geometry("1360x688+0+0")
-#     window.title("ASCII Window")
-#     window.configure(bg="black")
-
-#     figlet = Figlet(font='slant') #univers
-#     ascii_text = figlet.renderText("Hello, Gautam\nWel-Come to SSIT")
-
-#     label = tk.Label(window, text=ascii_text, font=("Courier", 20), fg="white", bg="red")#, justify=tk.LEFT)
-#     label.pack(padx=20, pady=20)
-
-#     window.mainloop()
-
-# # Create the tkinter window
-# create_window()
-
-
 import tkinter as tk
-from tkinter import messagebox
 from PIL import Image, ImageTk
 
 def window_unknown():
@@ -53,21 +9,21 @@ def window_unknown():
                     Professor Niraj Sir is an experienced faculty member in the Computer Science department.
                     He specializes in topics such as algorithms, data structures, and software engineering.
                     """,
-                "image_path": "images/modi.jpg"
+                "image_path": "path_to_image_niraj.png"
             },
             2: {
                 "text": """
                     Professor Dharmesh Sir is a dedicated teacher in the Electronics and Communication department.
                     He focuses on subjects like digital electronics, communication systems, and signal processing.
                     """,
-                "image_path": "images/modi.jpg"
+                "image_path": "path_to_image_dharmesh.png"
             },
             3: {
                 "text": """
                     Professor Hitesh Sir is a renowned educator in the Mechanical Engineering department.
                     His expertise lies in thermodynamics, fluid mechanics, and machine design.
                     """,
-                "image_path": "images/modi.jpg"
+                "image_path": "path_to_image_hitesh.png"
             },
             4: {
                 "text": """
@@ -79,41 +35,33 @@ def window_unknown():
                     Professor Darshan is an accomplished faculty member in the Civil Engineering department,
                     with expertise in structural engineering and construction management.
                     """,
-                "image_path": "images/modi.jpg"
+                "image_path": "path_to_image_ramesh_darshan.png"
             },
             5: {
                 "text": """
                     Gautam Prajapati is a student pursuing studies in Computer Science.
                     He is passionate about programming, machine learning, and web development.
                     """,
-                "image_path": "images/modi.jpg"
+                "image_path": "path_to_image_gautam.png"
             }
         }
+
         def go_home():
             description_window.destroy()
-            root.deiconify()
+            main_window.deiconify()
 
-        description_window = tk.Toplevel(root)
+        description_window = tk.Toplevel(main_window)
         description_window.title(f"Choice {choice} Description")
         description_window.geometry("1360x688+0+0")
-        description_window.configure(bg="black")
 
         description_label = tk.Label(description_window, text=descriptions[choice]["text"], font=("Courier", 14), justify=tk.LEFT)
         description_label.pack(padx=20, pady=20)
-
-        #to exit the choice descriptiion with esc button
-        def escape(event):
-            description_window.destroy()
-
-        description_window.bind("<Escape>", escape)
-
-
 
         # Load and display the image
         image_path = descriptions[choice]["image_path"]
         if image_path:
             img = Image.open(image_path)
-            img = img.resize((100, 100), Image.ANTIALIAS)
+            img = img.resize((300, 300), Image.ANTIALIAS)
             img = ImageTk.PhotoImage(img)
             image_label = tk.Label(description_window, image=img)
             image_label.image = img  # To prevent garbage collection
@@ -122,45 +70,42 @@ def window_unknown():
         home_button = tk.Button(description_window, text="Home", command=go_home, font=("Courier", 14))
         home_button.pack(pady=10)
 
-    # Function to handle the choice selection
     def handle_choice():
         try:
             choice = int(entry.get())
-            if 1 <= choice <= 5:
-                entry.delete(0, tk.END) 
+            if 1 <= choice <= 7:
                 show_description(choice)
+                main_window.iconify()
             else:
-                messagebox.showwarning("Invalid Choice", "Please enter a valid choice between 1 and 7.")
+                tk.messagebox.showwarning("Invalid Choice", "Please enter a valid choice between 1 and 7.")
         except ValueError:
-            messagebox.showwarning("Invalid Input", "Please enter a numeric value.")
-    # Create the main window
-    root = tk.Tk()
-    root.geometry("1360x688+0+0")
-    root.title("Choice Description App")
-    root.configure(bg = "black")
+            tk.messagebox.showwarning("Invalid Input", "Please enter a numeric value.")
 
-    # Add widgets to the main window
-    menu = "1.Addmission Process Faculty Detail \n2.Director Sir Details\n3.Principal Details\n4.HOD'sDetails\n5.Admin Contact"
-    label = tk.Label(root, text=menu, font=("Courier", 14), justify=tk.LEFT, bg="pink")
+    def on_escape(event):
+        exit_application()
+
+    def exit_application():
+        main_window.destroy()
+
+    # Main window
+    main_window = tk.Tk()
+    main_window.title("Choice Description App")
+
+    label = tk.Label(main_window, text="Enter your choice (1-7):", font=("Courier", 14))
     label.pack(padx=20, pady=20)
 
-    entry = tk.Entry(root, font=("Courier", 14), bg="pink")
+    entry = tk.Entry(main_window, font=("Courier", 14))
     entry.pack(padx=20, pady=20)
 
-    button = tk.Button(root, text="Show Description", command=handle_choice, font=("Courier", 14), fg="purple", bg="pink")
+    button = tk.Button(main_window, text="Show Description", command=handle_choice, font=("Courier", 14))
     button.pack(padx=20, pady=20)
-    
-    #To exit the main window with esc button
-    def on_escape(event):
-        root.destroy()
-    
-    #root.after(5000, root.destroy)
-    root.bind("<Escape>", on_escape)
-    # Start the Tkinter event loop
-    root.mainloop()
 
+    # exit_button = tk.Button(main_window, text="Exit", command=exit_application, font=("Courier", 14))
+    # exit_button.pack(padx=20, pady=20)
+
+    main_window.bind("<Escape>", on_escape)
+
+    main_window.mainloop()
+
+# Example of using the function
 window_unknown()
-
-
-
-        
