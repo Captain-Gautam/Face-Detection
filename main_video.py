@@ -47,6 +47,7 @@
 
 # #==========For Display with GTTS=========
 import cv2
+from PIL import Image, ImageTk
 from simple_facerec import SimpleFacerec
 from gtts import gTTS
 import os
@@ -78,6 +79,14 @@ def create_window(name):
 
     label = tk.Label(window, text=ascii_text, font=("Courier", 20), fg="white", bg="black", justify=tk.LEFT)
     label.pack(padx=20, pady=20)
+
+    logo_path = "GP Logo-modified.png"  # Replace with the path to your logo image
+    img = Image.open(logo_path)
+    img = img.resize((100, 100), Image.ANTIALIAS)
+    img = ImageTk.PhotoImage(img)
+    logo_label = tk.Label(window, image=img, bg="black")
+    logo_label.image = img  # To prevent garbage collection
+    logo_label.pack(side=tk.RIGHT, padx=20, pady=20)
 
     window.after(3000, window.destroy)
 
@@ -130,6 +139,14 @@ def window_unknown():
 
     button = tk.Button(root, text="Show Description", command=handle_choice, font=("Courier", 14))
     button.pack(padx=20, pady=20)
+    
+    logo_path = "GP Logo-modified.png"  # Replace with the path to your logo image
+    img = Image.open(logo_path)
+    img = img.resize((100, 100), Image.ANTIALIAS)
+    img = ImageTk.PhotoImage(img)
+    logo_label = tk.Label(root, image=img, bg="black")
+    logo_label.image = img  # To prevent garbage collection
+    logo_label.pack(side=tk.RIGHT, padx=20, pady=20)
     
     root.after(5000, root.destroy)
     # Start the Tkinter event loop

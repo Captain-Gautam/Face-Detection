@@ -102,6 +102,13 @@ def window_unknown():
 
     # exit_button = tk.Button(main_window, text="Exit", command=exit_application, font=("Courier", 14))
     # exit_button.pack(padx=20, pady=20)
+    logo_path = "GP Logo-modified.png"  # Replace with the path to your logo image
+    img = Image.open(logo_path)
+    img = img.resize((100, 100), Image.ANTIALIAS)
+    img = ImageTk.PhotoImage(img)
+    logo_label = tk.Label(main_window, image=img, bg="black")
+    logo_label.image = img  # To prevent garbage collection
+    logo_label.pack(side=tk.RIGHT, padx=20, pady=20)
 
     main_window.bind("<Escape>", on_escape)
 
